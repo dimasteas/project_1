@@ -22,3 +22,9 @@ def mask_account_card(info: str) -> str:
         masked_number = get_mask_card_number(number)
 
     return f"{type_name} {masked_number}"
+
+
+def get_date(date_str: str) -> str:
+    date_part = date_str.split("T")[0]
+    year, month, day = date_part.split("-")
+    return f"{day}.{month}.{year}"
