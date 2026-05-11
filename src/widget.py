@@ -1,3 +1,6 @@
+import datetime
+
+
 from .masks import get_mask_account, get_mask_card_number
 
 
@@ -8,7 +11,8 @@ def mask_account_card(info: str) -> str:
     """
     # Разделяем строку на слова
     parts = info.split()
-
+    if len(parts) < 2:
+        raise ValueError("Строка должна содержать тип и номер, разделённые пробелом")
     # Последний элемент — это номер, всё остальное — тип
     number = parts[-1]
     type_name = " ".join(parts[:-1])
@@ -25,6 +29,9 @@ def mask_account_card(info: str) -> str:
 
 
 def get_date(date_str: str) -> str:
-    date_part = date_str.split("T")[0]
-    year, month, day = date_part.split("-")
-    return f"{day}.{month}.{year}"
+    """
+    Преобразует дату из ISO-формата с временем в формат ДД.ММ.ГГГГ.
+    """
+    dt = datetime.datetime.fromisoformat(date_str)
+    # Форматируем объект в нужный вид: день.месяц.год
+    return dt.strftime("%d.%m.%Y")
